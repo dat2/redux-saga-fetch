@@ -1,0 +1,26 @@
+{
+  "name": "redux-saga-fetch",
+  "version": "0.1.0",
+  "description": "A saga that reduces http request duplication",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dat2/redux-saga-fetch.git"
+  },
+  "keywords": [
+    "redux",
+    "redux-saga",
+    "fetch",
+    "http",
+    "request"
+  ],
+  "author": "Nicholas Dujay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dat2/redux-saga-fetch/issues"
+  },
+  "homepage": "https://github.com/dat2/redux-saga-fetch#readme"
+}

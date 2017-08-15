@@ -1,9 +1,13 @@
-// these are meta actions. the "success" and "fail" are functions that take the result
+export const GET = '@@redux-saga/GET';
+export const POST = '@@redux-saga/POST';
+export const DELETE = '@@redux-saga/DELETE';
 
-export const GET = 'GET';
-export const POST = 'POST';
-export const DELETE = 'DELETE';
-
+/**
+ * This returns a GET action, with a success action creator and a fail action creator.
+ * 
+ * @param {*} url 
+ * @param {*} { success, fail } 
+ */
 export function get(url, { success, fail }) {
   return {
     type: GET,
@@ -12,10 +16,10 @@ export function get(url, { success, fail }) {
   };
 }
 
-export function post(url, { body, success, fail }) {
+export function post(url, { body, success, fail, ...fetchOptions }) {
   return {
     type: POST,
-    payload: { url, body, success, fail },
+    payload: { url, body, success, fail, ...fetchOptions },
     error: null
   };
 }

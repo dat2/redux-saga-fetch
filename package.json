@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "pretty": "prettier --single-quote --write src/**/*.js index.js"
+    "pretty": "prettier --single-quote --write {src,test}/**/*.js index.js"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,17 @@
   },
   "homepage": "https://github.com/dat2/redux-saga-fetch#readme",
   "devDependencies": {
+    "babel-jest": "^20.0.3",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
     "jest": "^20.0.4",
     "prettier": "^1.5.3"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "redux-saga": "^0.15.6"
+  },
+  "jest": {
+    "collectCoverage": true
   }
 }

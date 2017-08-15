@@ -17,9 +17,7 @@ function* getSaga({ payload: { url, success, fail } }) {
 
 // success is an action creator that takes the JSON response
 // fail is an action creator that uses the fail
-function* postSaga({
-  payload: { url, body, success, fail, ...fetch_options }
-}) {
+function* postSaga({ payload: { url, body, success, fail, ...fetchOptions } }) {
   try {
     const response = yield call(fetch, url, {
       method: 'POST',
@@ -28,7 +26,7 @@ function* postSaga({
         'Content-Type': 'application/json'
       },
       credentials: 'include',
-      ...fetch_options
+      ...fetchOptions
     });
     const json = yield call(() => response.json());
     yield put(success(json));

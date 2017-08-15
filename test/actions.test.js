@@ -12,18 +12,18 @@ test('the `get` action creator is correct', () => {
   expect(get('/v1', { success, fail })).toEqual(expected);
 });
 
-test('the `post` action creator is correct', () => {
+test('the `post.json` action creator is correct', () => {
   const success = jest.fn();
   const fail = jest.fn();
   const body = { hello: 'world' };
-  const fetchOptions = { };
+  const fetchOptions = { headers: { 'Content-Type': 'application/json' } };
 
   const expected = {
     type: POST,
-    payload: { url: '/v1', body, success, fail, ...fetchOptions },
+    payload: { url: '/v1', body: JSON.stringify(body), success, fail, ...fetchOptions },
     error: null
   };
-  expect(post('/v1', { body, success, fail, ...fetchOptions })).toEqual(
+  expect(post.json('/v1', { body, success, fail, ...fetchOptions })).toEqual(
     expected
   );
 });

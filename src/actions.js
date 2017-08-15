@@ -24,6 +24,19 @@ export function post(url, { body, success, fail, ...fetchOptions }) {
   };
 }
 
+post.json = function json(
+  url,
+  { body, success, fail, headers = {}, ...fetchOptions }
+) {
+  return post(url, {
+    body: body ? JSON.stringify(body) : body,
+    success,
+    fail,
+    headers: { 'Content-Type': 'application/json', ...headers },
+    ...fetchOptions
+  });
+};
+
 export function del(url, { success, fail }) {
   return {
     type: DELETE,

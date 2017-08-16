@@ -3,10 +3,11 @@ import { GET, POST, DELETE } from './actions';
 
 // success is an action creator that takes the JSON response
 // fail is an action creator that takes any error that was called
-function* getSaga({ payload: { url, success, fail } }) {
+export function* getSaga({ payload: { url, success, fail, ...fetchOptions } }) {
   try {
     const response = yield call(fetch, url, {
-      credentials: 'include'
+      credentials: 'include',
+      ...fetchOptions
     });
     const json = yield call(() => response.json());
     yield put(success(json));
@@ -17,14 +18,13 @@ function* getSaga({ payload: { url, success, fail } }) {
 
 // success is an action creator that takes the JSON response
 // fail is an action creator that uses the fail
-function* postSaga({ payload: { url, body, success, fail, ...fetchOptions } }) {
+export function* postSaga({
+  payload: { url, body, success, fail, ...fetchOptions }
+}) {
   try {
     const response = yield call(fetch, url, {
       method: 'POST',
       body,
-      headers: {
-        'Content-Type': 'application/json'
-      },
       credentials: 'include',
       ...fetchOptions
     });
@@ -37,9 +37,15 @@ function* postSaga({ payload: { url, body, success, fail, ...fetchOptions } }) {
 
 // assuming that delete takes no response (201 created response), success is an action creator
 // fail is an action creator
-function* deleteSaga({ payload: { url, success, fail } }) {
+export function* deleteSaga({
+  payload: { url, success, fail, ...fetchOptions }
+}) {
   try {
-    yield call(fetch, url, { method: 'DELETE' });
+    yield call(fetch, url, {
+      method: 'DELETE',
+      credentials: 'include',
+      ...fetchOptions
+    });
     yield put(success());
   } catch (e) {
     yield put(fail(e));

@@ -29,7 +29,7 @@ post.json = function json(
   { body, success, fail, headers = {}, ...fetchOptions }
 ) {
   return post(url, {
-    body: body ? JSON.stringify(body) : body,
+    body: JSON.stringify(body),
     success,
     fail,
     headers: { 'Content-Type': 'application/json', ...headers },

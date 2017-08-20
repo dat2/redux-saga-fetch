@@ -4,10 +4,11 @@
   "description": "A saga that reduces http request duplication",
   "main": "./lib/index.js",
   "scripts": {
-    "compile": "babel -d lib/ src/",
-    "prepare": "npm run compile",
+    "pretty": "prettier --single-quote --write {src,test}/**/*.js index.js",
+    "lint": "eslint src test",
     "test": "jest",
-    "pretty": "prettier --single-quote --write {src,test}/**/*.js index.js"
+    "compile": "cross-env NODE_ENV=production babel -d lib/ src/",
+    "prepublish": "npm run lint && npm run test && npm run compile"
   },
   "repository": {
     "type": "git",
@@ -25,12 +26,18 @@
   "bugs": {
     "url": "https://github.com/dat2/redux-saga-fetch/issues"
   },
+  "files": [
+    "lib"
+  ],
   "homepage": "https://github.com/dat2/redux-saga-fetch#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-env": "^1.6.0",
+    "cross-env": "^5.0.5",
+    "eslint": "^4.5.0",
     "jest": "^20.0.4",
     "jest-fetch-mock": "^1.2.1",
     "prettier": "^1.5.3"
@@ -42,5 +49,16 @@
   "jest": {
     "collectCoverage": true,
     "coverageDirectory": "./coverage/"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "env": {
+      "browser": true,
+      "node": true,
+      "jest": true
+    },
+    "extends": [
+      "eslint:recommended"
+    ]
   }
 }

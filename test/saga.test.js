@@ -1,8 +1,9 @@
+/*globals Promise:true*/
 global.fetch = require('jest-fetch-mock');
 
 import { call, put, takeEvery } from 'redux-saga/effects';
 
-import { FETCH, get, post, del } from '../src/actions';
+import { FETCH, get } from '../src/actions';
 import saga, { fetchSaga } from '../src/saga';
 
 test('the main saga is just `takeEvery`', () => {
@@ -83,7 +84,7 @@ test('the fetch saga will call the fail action creator when it gets an error', (
 
   const success = jest.fn();
   const error = new Error('Failed http code.');
-  const fail = err => ({ type: 'ERROR', payload: error, error: true });
+  const fail = err => ({ type: 'ERROR', payload: err, error: true });
 
   const action = get('/v1', { success, fail });
   const gen = fetchSaga(action);

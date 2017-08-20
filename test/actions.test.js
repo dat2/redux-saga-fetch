@@ -1,12 +1,12 @@
-import { GET, POST, DELETE, get, post, del } from '../src/actions';
+import { FETCH, get, post, del } from '../src/actions';
 
 test('the `get` action creator is correct', () => {
   const success = jest.fn();
   const fail = jest.fn();
 
   const expected = {
-    type: GET,
-    payload: { url: '/v1', success, fail },
+    type: FETCH,
+    payload: { method: 'GET', url: '/v1', success, fail },
     error: null
   };
   expect(get('/v1', { success, fail })).toEqual(expected);
@@ -19,8 +19,15 @@ test('the `post` action creator allows different bodies and headers', () => {
   const fetchOptions = { headers: { 'Content-Type': 'application/xml' } };
 
   const expected = {
-    type: POST,
-    payload: { url: '/v1', body, success, fail, ...fetchOptions },
+    type: FETCH,
+    payload: {
+      method: 'POST',
+      url: '/v1',
+      body,
+      success,
+      fail,
+      ...fetchOptions
+    },
     error: null
   };
   expect(post('/v1', { body, success, fail, ...fetchOptions })).toEqual(
@@ -34,8 +41,9 @@ test('the `post.json` action creator is correct', () => {
   const body = { hello: 'world' };
 
   const expected = {
-    type: POST,
+    type: FETCH,
     payload: {
+      method: 'POST',
       url: '/v1',
       body: JSON.stringify(body),
       success,
@@ -52,8 +60,8 @@ test('the `del` action creator is correct', () => {
   const fail = jest.fn();
 
   const expected = {
-    type: DELETE,
-    payload: { url: '/v1', success, fail },
+    type: FETCH,
+    payload: { method: 'DELETE', url: '/v1', success, fail },
     error: null
   };
   expect(del('/v1', { success, fail })).toEqual(expected);

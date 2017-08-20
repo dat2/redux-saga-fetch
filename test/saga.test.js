@@ -1,34 +1,48 @@
 global.fetch = require('jest-fetch-mock');
 
-import { all, call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 
-import { GET, POST, DELETE, get, post, del } from '../src/actions';
-import saga, { getSaga, postSaga, deleteSaga } from '../src/saga';
+import { FETCH, get, post, del } from '../src/actions';
+import saga, { fetchSaga } from '../src/saga';
 
-test('the saga should be listening for all of the actions', () => {
+test('the main saga is just `takeEvery`', () => {
   const gen = saga();
-
-  expect(gen.next().value).toEqual(
-    all([
-      takeEvery(GET, getSaga),
-      takeEvery(POST, postSaga),
-      takeEvery(DELETE, deleteSaga)
-    ])
-  );
+  expect(gen.next()).toEqual({
+    done: false,
+    value: takeEvery(FETCH, fetchSaga)
+  });
+  expect(gen.next()).toEqual({ done: true });
 });
 
-test('the saga should call the success action creator for get correctly.', () => {
+test('the `get` action is handled correctly', () => {
   const body = { hello: 'world' };
   const response = new Response(JSON.stringify(body));
 
   const success = payload => ({ type: 'HELLO', payload, error: null });
   const action = get('/v1', { success, fail: jest.fn() });
 
-  const gen = getSaga(action);
-  expect(gen.next(response).value).toEqual(
-    call(fetch, '/v1', { credentials: 'include' })
-  );
-  // the saga calls response.json, which just returns body
-  gen.next();
-  expect(gen.next(body).value).toEqual(put(success(body)));
+  const gen = fetchSaga(action);
+
+  // first, it should call with the right method
+  expect(gen.next(response)).toEqual({
+    done: false,
+    value: call(fetch, '/v1', { method: 'GET', credentials: 'include' })
+  });
+
+  // then, it should try and call response.json
+  const val = call(() => response.json());
+  delete val.CALL.fn;
+  expect(gen.next()).toMatchObject({
+    done: false,
+    value: val
+  })
+
+  // then, it should call the success action creator
+  expect(gen.next(body)).toEqual({
+    done: false,
+    value: put(success(body))
+  });
+
+  // then, it should be done
+  expect(gen.next()).toEqual({ done: true });
 });

@@ -1,27 +1,31 @@
-export const GET = '@@redux-saga/GET';
-export const POST = '@@redux-saga/POST';
-export const DELETE = '@@redux-saga/DELETE';
+export const FETCH = '@@redux-saga/FETCH';
 
-/**
- * This returns a GET action, with a success action creator and a fail action creator.
- * 
- * @param {*} url 
- * @param {*} { success, fail } 
- */
-export function get(url, { success, fail }) {
+function createFetchAction({ method, ...fetchOptions }) {
   return {
-    type: GET,
-    payload: { url, success, fail },
+    type: FETCH,
+    payload: { method, ...fetchOptions },
     error: null
   };
 }
 
+export function get(url, { success, fail }) {
+  return createFetchAction({
+    method: 'GET',
+    url,
+    success,
+    fail
+  });
+}
+
 export function post(url, { body, success, fail, ...fetchOptions }) {
-  return {
-    type: POST,
-    payload: { url, body, success, fail, ...fetchOptions },
-    error: null
-  };
+  return createFetchAction({
+    method: 'POST',
+    url,
+    body,
+    success,
+    fail,
+    ...fetchOptions
+  });
 }
 
 post.json = function json(
@@ -38,9 +42,10 @@ post.json = function json(
 };
 
 export function del(url, { success, fail }) {
-  return {
-    type: DELETE,
-    payload: { url, success, fail },
-    error: null
-  };
+  return createFetchAction({
+    method: 'DELETE',
+    url,
+    success,
+    fail
+  });
 }

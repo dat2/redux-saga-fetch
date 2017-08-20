@@ -1,4 +1,4 @@
-export const FETCH = '@@redux-saga/FETCH';
+export const FETCH = '@@redux-saga-fetch/FETCH';
 
 function createFetchAction({ method, ...fetchOptions }) {
   return {

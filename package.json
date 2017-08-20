@@ -2,8 +2,10 @@
   "name": "redux-saga-fetch",
   "version": "0.2.0",
   "description": "A saga that reduces http request duplication",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "scripts": {
+    "build": "babel -d lib/ src/",
+    "prepublish": "npm build",
     "test": "jest",
     "pretty": "prettier --single-quote --write {src,test}/**/*.js index.js"
   },
@@ -25,6 +27,7 @@
   },
   "homepage": "https://github.com/dat2/redux-saga-fetch#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-jest": "^20.0.3",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-env": "^1.6.0",

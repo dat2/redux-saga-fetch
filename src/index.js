@@ -1,4 +1,4 @@
-import { get, post, del } from './src/actions';
-import saga from './src/saga';
+import { get, post, del } from './actions';
+import saga from './saga';
 
 export { get, post, del, saga };

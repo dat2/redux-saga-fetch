@@ -4,8 +4,8 @@
   "description": "A saga that reduces http request duplication",
   "main": "./lib/index.js",
   "scripts": {
-    "build": "babel -d lib/ src/",
-    "prepublish": "npm run build",
+    "compile": "babel -d lib/ src/",
+    "prepare": "npm run compile",
     "test": "jest",
     "pretty": "prettier --single-quote --write {src,test}/**/*.js index.js"
   },

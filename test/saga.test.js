@@ -38,9 +38,11 @@ test('the fetch saga works for a `get` action', () => {
   });
 
   // then, once it gets the fetch result, it should wait for the next action
-  expect(gen.next(response)).toEqual({
+  const val = call(Promise.resolve.bind(Promise), success(response));
+  delete val.CALL.fn; // blehhhhhhh :/
+  expect(gen.next(response)).toMatchObject({
     done: false,
-    value: call(Promise.resolve, success(response))
+    value: val
   });
 
   // then, it should try and give back that action

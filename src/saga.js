@@ -11,7 +11,7 @@ export function* fetchSaga({
       credentials: 'include',
       ...fetchOptions
     });
-    const next = yield call(Promise.resolve, success(response));
+    const next = yield call(Promise.resolve.bind(Promise), success(response));
     yield put(next);
   } catch (e) {
     yield put(fail(e));

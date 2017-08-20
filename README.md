@@ -83,6 +83,7 @@ saga for basic use cases.
 If you have a more complex use case where you need a successful action to start
 some other asynchronous actions, you can still use `redux-thunk` for that.
 
+Add the thunk middleware to your store.
 #### `main.js`
 ```diff
 import { createStore, applyMiddleware } from 'redux'
@@ -127,5 +128,9 @@ rather than a single action.
 ```
 
 ## Documentation
+
+All the options supported by the
+[fetch api](https://developer.mozilla.org/en/docs/Web/API/Fetch_API) are supported.
+Just pass them in as extra arguments to the second parameter.
 
 ## Examples

@@ -1,8 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { FETCH } from './actions';
 
-// success is an action creator that takes the JSON response
-// fail is an action creator that takes any error that was called
 export function* fetchSaga({
   payload: { method, url, success, fail, ...fetchOptions }
 }) {
@@ -12,8 +10,8 @@ export function* fetchSaga({
       credentials: 'include',
       ...fetchOptions
     });
-    const json = yield call(() => response.json());
-    yield put(success(json));
+    const next = yield call(Promise.resolve, success(response));
+    yield put(next);
   } catch (e) {
     yield put(fail(e));
   }

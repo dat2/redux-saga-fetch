@@ -22,14 +22,11 @@ Then you start to create the `userSaga`. You start copy/pasting this `userSaga`
 for all of your objects, and start thinking "This is not very DRY", and maybe
 even give up `redux-saga`. `redux-saga-fetch` is here to save the day!
 
-Here's an example taken from the `redux-saga` readme, but with `redux-saga-fetch`
-sprinkled in.
-
 Let's create a simple actions file for now. This will use the same actions from
 the `redux-saga` readme.
 
-`actions.js`
-```js
+#### `actions.js`
+```javascript
 import { get } from 'redux-saga-fetch';
 
 // this is where the magic happens
@@ -55,8 +52,8 @@ export function userFetchFailed(e) {
 
 This is the `main.js` taken from the `redux-saga` readme.
 
-`main.js`
-```js
+#### `main.js`
+```diff
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 +import fetchSaga from 'redux-saga-fetch'
@@ -79,8 +76,24 @@ const store = createStore(
 // render the application
 ```
 
-From here, you can `store.dispatch(userFetchRequested(1))`, and see that the
-actions you want are created :ok_hand:
+And there you have it! `redux-saga-fetch` removes the need to write an entire
+saga for basic use cases. If you want the success action to kick off a few other
+actions, you can still use `redux-thunk` for that.
+
+`actions.js`
+```diff
+-export function userFetchSucceeeded(user) {
+-    return { type: 'USER_FETCH_SUCCEEDED', user: user }
+-}
++export function userFetchSucceeded(uesr) {
++    return function(dispatch) {
++        dispatch({ type: 'USER_FETCH_SUCCEEDED', user: user })
++        // start kicking off some other actions
++        dispatch({ type: 'FETCH_TODOS_FOR_USER', user: user })
++        dispatch({ type: 'FETCH_FRIENDS_FOR_USER', user: user });
++    }
++}
+```
 
 ## Documentation
 

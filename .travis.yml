@@ -6,4 +6,4 @@ before_install:
 install:
   - npm install -g codecov
 script:
-  - jest && codecov
+  - npm test && codecov

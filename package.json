@@ -1,6 +1,6 @@
 {
   "name": "redux-saga-fetch",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "A saga that reduces http request duplication",
   "main": "./lib/index.js",
   "scripts": {

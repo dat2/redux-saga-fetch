@@ -8,7 +8,7 @@
     "lint": "eslint src test",
     "test": "jest",
     "compile": "cross-env NODE_ENV=production babel -d lib/ src/",
-    "prepublish": "npm run lint && npm run test && npm run compile"
+    "prepare": "install-self-peers -- --ignore-scripts && npm run lint && npm run test && npm run compile"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
   ],
   "homepage": "https://github.com/dat2/redux-saga-fetch#readme",
   "devDependencies": {
+    "@team-griffin/install-self-peers": "^1.1.1",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
@@ -42,7 +43,6 @@
     "jest-fetch-mock": "^1.2.1",
     "prettier": "^1.5.3"
   },
-  "dependencies": {},
   "peerDependencies": {
     "redux-saga": "^0.15.6"
   },
@@ -59,6 +59,14 @@
     },
     "extends": [
       "eslint:recommended"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
     ]
   }
 }

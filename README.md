@@ -77,10 +77,11 @@ const store = createStore(
 ```
 
 And there you have it! `redux-saga-fetch` removes the need to write an entire
-saga for basic use cases. If you want the success action to kick off a few other
-actions, you can still use `redux-thunk` for that.
+saga for basic use cases.
 
-`actions.js`
+### Kicking off other actions on success
+
+#### `actions.js`
 ```diff
 -export function userFetchSucceeeded(user) {
 -    return { type: 'USER_FETCH_SUCCEEDED', user: user }

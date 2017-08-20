@@ -79,7 +79,37 @@ const store = createStore(
 And there you have it! `redux-saga-fetch` removes the need to write an entire
 saga for basic use cases.
 
-### Kicking off other actions on success
+### Starting other actions on completion
+If you have a more complex use case where you need a successful action to start
+some other asynchronous actions, you can still use `redux-thunk` for that.
+
+#### `main.js`
+```diff
+import { createStore, applyMiddleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
++import thunk from 'redux-thunk'
+import fetchSaga from 'redux-saga-fetch'
+
+import reducer from './reducers'
+import mySaga from './sagas'
+
+// create the saga middleware
+const sagaMiddleware = createSagaMiddleware()
+// mount it on the Store
+const store = createStore(
+  reducer,
+-  applyMiddleware(sagaMiddleware)
++  applyMiddleware(sagaMiddleware, thunk)
+)
+
+// then run the saga
+sagaMiddleware.run(fetchSaga)
+
+// render the application
+```
+
+Then update your `actions.js` file to return a thunk for the `USER_FETCH_SUCCEEDED`
+rather than a single action.
 
 #### `actions.js`
 ```diff

@@ -36,6 +36,7 @@
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "cross-env": "^5.0.5",
     "eslint": "^4.5.0",
@@ -66,7 +67,12 @@
       "env"
     ],
     "plugins": [
-      "transform-object-rest-spread"
+      "transform-object-rest-spread",
+      ["transform-runtime", {
+        "helpers": false,
+        "polyfill": false,
+        "regenerator": true
+      }]
     ]
   }
 }

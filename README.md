@@ -56,7 +56,7 @@ This is the `main.js` taken from the `redux-saga` readme.
 ```diff
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-+import fetchSaga from 'redux-saga-fetch'
++import { saga as fetchSaga } from 'redux-saga-fetch'
 
 import reducer from './reducers'
 import mySaga from './sagas'
@@ -89,7 +89,7 @@ Add the thunk middleware to your store.
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 +import thunk from 'redux-thunk'
-import fetchSaga from 'redux-saga-fetch'
+import { saga as fetchSaga } from 'redux-saga-fetch'
 
 import reducer from './reducers'
 import mySaga from './sagas'

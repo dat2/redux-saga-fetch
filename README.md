@@ -32,10 +32,8 @@ the `redux-saga` readme.
 import { get } from 'redux-saga-fetch';
 
 // this is where the magic happens
-// the `get` is an action creator, that takes a url and 2 important functions
-// success: an action creator that can return a Promise, or an action
-// fail: an action creator that catches any errors, either in fetch or in the
-//       success action creator
+// the saga will dispatch the actions (either userFetchSucceeded oruserFetchFailed) automatically
+// as the fetch completes.
 export function userFetchRequested(userId) {
     return get(`/users/${userId}`, {
         success: response => response.json().then(userFetchSucceeded),
@@ -165,10 +163,4 @@ rather than a single action.
 +}
 ```
 
-## Documentation
-
-All the options supported by the
-[fetch api](https://developer.mozilla.org/en/docs/Web/API/Fetch_API) are supported.
-Just pass them in as extra arguments to the second parameter.
-
-## Examples
+This allows you to set up a complex chain of asynchronous actions very easily!

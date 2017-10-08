@@ -79,6 +79,42 @@ const store = createStore(
 And there you have it! `redux-saga-fetch` removes the need to write an entire
 saga for basic use cases.
 
+### Responding to Status Codes
+If you want to dispatch different actions based on your status code, you can easily check the `.status` property of the [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) object like this:
+
+```diff
+import { get } from 'redux-saga-fetch';
+
+// this is where the magic happens
+// the `get` is an action creator, that takes a url and 2 important functions
+// success: an action creator that can return a Promise, or an action
+// fail: an action creator that catches any errors, either in fetch or in the
+//       success action creator
+export function userFetchRequested(userId) {
+    return get(`/users/${userId}`, {
+-        success: response => response.json().then(userFetchSucceeded),
++        success: response => response.status == 200 ?
++                     response.json().then(userFetchSucceeded) :
++                     notAuthorized(userId)
+        fail: userFetchFailed
+    })
+}
+
+export function userFetchSucceeeded(user) {
+    return { type: 'USER_FETCH_SUCCEEDED', user: user }
+}
+
+export function userFetchFailed(e) {
+    return { type: 'USER_FETCH_FAILED', message: e.message }
+}
+
++ export function notAuthorized(userId) {
++    return { type: 'NOT_AUTHORIZED', userId: userId }
++ }
+```
+
+The `saga` calls `Promise.resolve` on whatever you return from the `success` callback, so you can just return the action directly.
+
 ### Starting other actions on completion
 If you have a more complex use case where you need a successful action to start
 some other asynchronous actions, you can still use `redux-thunk` for that.

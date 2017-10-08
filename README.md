@@ -93,9 +93,9 @@ import { get } from 'redux-saga-fetch';
 export function userFetchRequested(userId) {
     return get(`/users/${userId}`, {
 -        success: response => response.json().then(userFetchSucceeded),
-+        success: response => response.status == 200 ?
-+                     response.json().then(userFetchSucceeded) :
-+                     notAuthorized(userId)
++        success: response => response.status == 401 ?
++                     notAuthorized(userId) :
++                     response.json().then(userFetchSucceeded)
         fail: userFetchFailed
     })
 }

@@ -43,7 +43,7 @@ export function userFetchRequested(userId) {
 
 // or with the .json shorthand (will call fail if it's not valid JSON):
 export function userFetchRequestedWithJson(userId) {
-    return get(`/users/${userId}`, {
+    return get.json(`/users/${userId}`, {
         success: userFetchSucceeded,
         fail: userFetchFailed
     })

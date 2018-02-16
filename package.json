@@ -1,7 +1,7 @@
 {
   "name": "redux-saga-fetch",
-  "version": "0.3.0",
-  "description": "A saga that reduces http request duplication",
+  "version": "0.3.1",
+  "description": "A saga that reduces HTTP request duplication",
   "main": "./lib/index.js",
   "scripts": {
     "pretty": "prettier --single-quote --write {src,test}/**/*.js index.js",
@@ -33,23 +33,27 @@
   "devDependencies": {
     "@team-griffin/install-self-peers": "^1.1.1",
     "babel-cli": "^6.26.0",
-    "babel-eslint": "^7.2.3",
-    "babel-jest": "^20.0.3",
+    "babel-eslint": "^8.2.1",
+    "babel-jest": "^22.2.2",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.6.0",
-    "cross-env": "^5.0.5",
-    "eslint": "^4.5.0",
-    "jest": "^20.0.4",
-    "jest-fetch-mock": "^1.2.1",
-    "prettier": "^1.5.3"
+    "babel-preset-env": "^1.6.1",
+    "cross-env": "^5.1.3",
+    "eslint": "^4.17.0",
+    "jest": "^22.3.0",
+    "jest-fetch-mock": "^1.4.1",
+    "prettier": "^1.10.2",
+    "redux-saga-test-plan": "^3.5.0"
   },
   "peerDependencies": {
-    "redux-saga": "^0.15.6"
+    "redux-saga": "^0.16.0"
   },
   "jest": {
     "collectCoverage": true,
-    "coverageDirectory": "./coverage/"
+    "coverageDirectory": "./coverage/",
+    "setupFiles": [
+      "./test/setup.js"
+    ]
   },
   "eslintConfig": {
     "parser": "babel-eslint",

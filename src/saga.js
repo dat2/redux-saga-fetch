@@ -1,4 +1,3 @@
-/*globals Promise:true*/
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { FETCH } from './actions';
 
@@ -11,10 +10,9 @@ export function* fetchSaga({
       credentials: 'include',
       ...fetchOptions
     });
-    const next = yield call(Promise.resolve.bind(Promise), success(response));
-    yield put(next);
+    yield put(yield call(success, response));
   } catch (e) {
-    yield put(fail(e));
+    yield put(yield call(fail, e));
   }
 }
 

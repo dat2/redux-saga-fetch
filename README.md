@@ -1,5 +1,5 @@
 # redux-saga-fetch  [![Build Status](https://travis-ci.org/dat2/redux-saga-fetch.svg?branch=master)](https://travis-ci.org/dat2/redux-saga-fetch) [![codecov](https://codecov.io/gh/dat2/redux-saga-fetch/branch/master/graph/badge.svg)](https://codecov.io/gh/dat2/redux-saga-fetch/)
-A saga that helps reduce http duplication when writing `redux-saga` code.
+A saga that helps reduce HTTP duplication when writing `redux-saga` code.
 
 ### [Full API Documentation](docs/API.md)
 
@@ -22,7 +22,7 @@ Let's say you read the `redux-saga` readme, and start implementing the 3 kinds
 of actions `USER_FETCH_REQUESTED`,`USER_FETCH_SUCCEEDED` and `USER_FETCH_FAILED`.
 Then you start to create the `userSaga`. You start copy/pasting this `userSaga`
 for all of your objects, and start thinking "This is not very DRY", and maybe
-even give up `redux-saga`. `redux-saga-fetch` is here to save the day!
+even give up on `redux-saga`. `redux-saga-fetch` is here to save the day!
 
 Let's create a simple actions file for now. This will use the same actions from
 the `redux-saga` readme.
@@ -37,6 +37,14 @@ import { get } from 'redux-saga-fetch';
 export function userFetchRequested(userId) {
     return get(`/users/${userId}`, {
         success: response => response.json().then(userFetchSucceeded),
+        fail: userFetchFailed
+    })
+}
+
+// or with the .json shorthand (will call fail if it's not valid JSON):
+export function userFetchRequestedWithJson(userId) {
+    return get.json(`/users/${userId}`, {
+        success: userFetchSucceeded,
         fail: userFetchFailed
     })
 }
@@ -113,7 +121,7 @@ export function userFetchFailed(e) {
 + }
 ```
 
-The `saga` calls `Promise.resolve` on whatever you return from the `success` callback, so you can just return the action directly.
+The `saga` middleware automatically awaits a Promise if you return one from the `success` or `fail` callbacks, so you can just chain from the [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) Promise you get in `success` or the `Error` you get in `fail`.
 
 ### Starting other actions on completion
 If you have a more complex use case where you need a successful action to start
@@ -151,14 +159,14 @@ rather than a single action.
 #### `actions.js`
 ```diff
 -export function userFetchSucceeeded(user) {
--    return { type: 'USER_FETCH_SUCCEEDED', user: user }
+-    return { type: 'USER_FETCH_SUCCEEDED', user }
 -}
-+export function userFetchSucceeded(uesr) {
++export function userFetchSucceeded(user) {
 +    return function(dispatch) {
-+        dispatch({ type: 'USER_FETCH_SUCCEEDED', user: user })
++        dispatch({ type: 'USER_FETCH_SUCCEEDED', user })
 +        // start kicking off some other actions
-+        dispatch({ type: 'FETCH_TODOS_FOR_USER', user: user })
-+        dispatch({ type: 'FETCH_FRIENDS_FOR_USER', user: user });
++        dispatch({ type: 'FETCH_TODOS_FOR_USER', user })
++        dispatch({ type: 'FETCH_FRIENDS_FOR_USER', user });
 +    }
 +}
 ```

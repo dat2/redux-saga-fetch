@@ -4,8 +4,8 @@
 * [Actions](#actions)
   + [`get()`](#get)
   + [`post()`](#post)
-  + [`post.json()`](#postjson)
   + [`del`](#del)
+  + [`.json()`](#json)
 
 ## Actions
 
@@ -58,22 +58,6 @@ post(
 
 This sets the method to `'POST'`.
 
-### `post.json()`
-```js
-post(
-  url: string,
-  config: {
-    body: Object,
-    success: (response: Response) => Promise | Object,
-    fail: (error: Error) => Promise | Object,
-    ...options: Object
-  }
-): FetchAction
-```
-
-This is a factory for the `post` action that only accepts an `Object` for the body. It
-also sets the headers to `{ 'Content-Type': 'application/json' }` by default.
-
 ### `del()`
 ```js
 del(
@@ -86,3 +70,19 @@ del(
 ```
 
 This sets the method to `'DELETE'`.
+
+### `.json()`
+```js
+post.json(
+  url: string,
+  config: {
+    body: Object,
+    success: (response: Response) => Promise | Object,
+    fail: (error: Error) => Promise | Object,
+    ...options: Object
+  }
+): FetchAction
+```
+
+This is a factory action that only accepts an `Object` for the `body` (if any). It
+also adds the `{ 'Content-Type': 'application/json' }` header and automatically parses a response as JSON. If the response is not valid JSON, the `fail` action is dispatched.

@@ -10,7 +10,7 @@ export function* fetchSaga({
       credentials: 'include',
       ...fetchOptions
     });
-    const action = yield call(success, response)
+    const action = yield call(success, response);
     yield put(action);
   } catch (e) {
     yield put(fail(e));

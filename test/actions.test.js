@@ -47,7 +47,7 @@ test('the `del` action creator is correct', () => {
   expect(del('/v1', { success, fail })).toEqual(expected);
 });
 
-test('the `.json` action creators auth-convert json', () => {
+test('the `.json` action creators auto-convert json', () => {
   const success = jest.fn();
 
   const body = { hello: 'world' };

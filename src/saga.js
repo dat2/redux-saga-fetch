@@ -10,13 +10,12 @@ export function* fetchSaga({
       credentials: 'include',
       ...fetchOptions
     });
-    const action = yield call(success, response);
-    yield put(action);
+    yield put(yield call(success, response));
   } catch (e) {
-    yield put(fail(e));
+    yield put(yield call(fail, e));
   }
 }
 
-export default function* sagaWatcher() {
+export default function* saga() {
   yield takeEvery(FETCH, fetchSaga);
 }

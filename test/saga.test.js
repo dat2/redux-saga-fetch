@@ -4,10 +4,10 @@ import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
 
 import { del, FETCH, get, post } from '../src/actions';
-import sagaWatcher, { fetchSaga } from '../src/saga';
+import saga, { fetchSaga } from '../src/saga';
 
 test('the main saga watcher is just `takeEvery`', () => {
-  const gen = sagaWatcher();
+  const gen = saga();
   // listen to each fetch action by default
   expect(gen.next()).toEqual({
     done: false,

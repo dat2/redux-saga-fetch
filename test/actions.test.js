@@ -1,4 +1,4 @@
-import { FETCH, get, post, del } from '../src/actions';
+import { del, FETCH, get, post, withJsonResponse } from '../src/actions';
 
 test('the `get` action creator is correct', () => {
   const success = jest.fn();
@@ -46,7 +46,7 @@ test('the `post.json` action creator is correct', () => {
       method: 'POST',
       url: '/v1',
       body: JSON.stringify(body),
-      success,
+      success: withJsonResponse(success),
       fail,
       headers: { 'Content-Type': 'application/json' }
     },
